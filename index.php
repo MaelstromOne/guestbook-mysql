@@ -11,19 +11,35 @@
 </head>
 <body>
 
-<div class="container">
-    <form method="post">
-        <div class="form-group mt-4">
-            <label for="name">Имя</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Введите имя">
-        </div>
+<?php session_start(); ?>
 
-        <div class="form-group mt-4">
-            <label for="message">Комментарий</label>
-            <input type="text" class="form-control" id="message" name="message" placeholder="Введите комментарий">
+
+<div class="container">
+    <div>
+        <a href="registration.php" class="link-primary">Регистрация</a>
+        <a href="auth.php" class="link-primary">Аутентификация</a>
+        <?php if (isset($_SESSION["login"])) { ?>
+            <a href="exit.php" class="link-primary">Выйти</a>
+        <?php } ?>
+    </div>
+    <?php if (isset($_SESSION["login"])) { ?>
+        <div class="mt-5">
+            <h5>Вы авторизовались как</h5>
+            <h4><?= $_SESSION["login"] ?></h4>
         </div>
-        <button type="submit" class="btn btn-primary mt-4">Отправить</button>
-    </form>
+        <form class="mt-4" method="post">
+            <div class="form-group mt-4">
+                <input type="hidden" name="login" value="<?= $_SESSION["login"] ?>">
+                <label for="text">Комментарий</label>
+                <input type="text" class="form-control" id="text" name="text" placeholder="Введите комментарий">
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Отправить</button>
+        </form>
+    <?php } else { ?>
+        <div class="mt-5">
+            <p>Для отправления комментариев нужно авторизоваться</p>
+        </div>
+    <?php } ?>
 
     <?php
 
@@ -33,22 +49,22 @@
     $mysqli = mysqli_connect(DB['host'], DB['login'], DB['password'], DB['name']) or die("Не удалось подключиться к базе данных");
 
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        $query = sprintf(INSERT,
-            mysqli_real_escape_string($mysqli, $_POST['name']),
-            mysqli_real_escape_string($mysqli, $_POST['message']));
+        $query = sprintf(MESSAGE_INSERT,
+            mysqli_real_escape_string($mysqli, $_POST['login']),
+            mysqli_real_escape_string($mysqli, $_POST['text']));
 
         $result = mysqli_query($mysqli, $query) or die("Не удалось записать в базу данных");
         header("Location: /");
     }
 
-    $result = mysqli_query($mysqli, SELECT) or die("Не удалось получить данные от базы данных"); ?>
+    $result = mysqli_query($mysqli, MESSAGE_SELECT) or die("Не удалось получить данные от базы данных"); ?>
     <div class="mt-5">
         <?php
         while ($row = mysqli_fetch_assoc($result)) { ?>
             <div class="card mt-4">
                 <div class="card-body">
-                    <h5 class="card-title"><?= $row['name'] ?></h5>
-                    <p class="card-text"><?= $row['message'] ?></p>
+                    <h5 class="card-title"><?= $row['login'] ?></h5>
+                    <p class="card-text"><?= $row['text'] ?></p>
                 </div>
                 <div class="card-body">
                     <p class="card-text"><?= $row['date'] ?></p>
