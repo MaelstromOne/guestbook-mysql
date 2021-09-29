@@ -29,7 +29,6 @@
         </div>
         <form class="mt-4" method="post">
             <div class="form-group mt-4">
-                <input type="hidden" name="login" value="<?= $_SESSION["login"] ?>">
                 <label for="text">Комментарий</label>
                 <input type="text" class="form-control" id="text" name="text" placeholder="Введите комментарий">
             </div>
@@ -50,7 +49,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $query = sprintf(MESSAGE_INSERT,
-            mysqli_real_escape_string($mysqli, $_POST['login']),
+            mysqli_real_escape_string($mysqli, $_SESSION["login"]),
             mysqli_real_escape_string($mysqli, $_POST['text']));
 
         $result = mysqli_query($mysqli, $query) or die("Не удалось записать в базу данных");
