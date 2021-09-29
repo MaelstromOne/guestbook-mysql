@@ -1,3 +1,16 @@
+<?php
+
+require_once("defines.php");
+require_once("db.php");
+
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    saveMessage();
+}
+
+$result = getMessages() ?>
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -11,11 +24,9 @@
 </head>
 <body>
 
-<?php session_start(); ?>
-
 <div class="container">
     <div>
-        <a href="registration.php" class="link-primary">Регистрация</a>
+        <a href="signup.php" class="link-primary">Регистрация</a>
         <a href="auth.php" class="link-primary">Аутентификация</a>
         <?php if (isset($_SESSION["login"])) { ?>
             <a href="exit.php" class="link-primary">Выйти</a>
@@ -39,23 +50,6 @@
         </div>
     <?php } ?>
 
-    <?php
-
-    require_once("defines.php");
-    require_once("db.php");
-
-    $mysqli = mysqli_connect(DB['host'], DB['login'], DB['password'], DB['name']) or die("Не удалось подключиться к базе данных");
-
-    if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        $query = sprintf(MESSAGE_INSERT,
-            mysqli_real_escape_string($mysqli, $_SESSION["login"]),
-            mysqli_real_escape_string($mysqli, $_POST['text']));
-
-        $result = mysqli_query($mysqli, $query) or die("Не удалось записать в базу данных");
-        header("Location: /");
-    }
-
-    $result = mysqli_query($mysqli, MESSAGE_SELECT) or die("Не удалось получить данные от базы данных"); ?>
     <div class="mt-5">
         <?php
         while ($row = mysqli_fetch_assoc($result)) { ?>

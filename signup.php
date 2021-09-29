@@ -1,3 +1,12 @@
+<?php
+
+require_once("defines.php");
+require_once("db.php");
+
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    signup();
+} ?>
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -28,22 +37,6 @@
         </div>
         <button type="submit" class="btn btn-primary mt-4">Отправить</button>
     </form>
-
-    <?php
-
-    require_once("defines.php");
-    require_once("db.php");
-
-    $mysqli = mysqli_connect(DB['host'], DB['login'], DB['password'], DB['name']) or die("Не удалось подключиться к базе данных");
-
-    if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        $query = sprintf(LOGIN_INSERT,
-            mysqli_real_escape_string($mysqli, $_POST['login']),
-            mysqli_real_escape_string($mysqli, $_POST['password']));
-
-        $result = mysqli_query($mysqli, $query) or die("Не удалось записать в базу данных");
-        header("Location: /auth.php");
-    } ?>
 
 </div>
 </body>

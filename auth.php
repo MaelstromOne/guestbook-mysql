@@ -1,3 +1,12 @@
+<?php
+
+require_once("defines.php");
+require_once("db.php");
+
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    auth();
+} ?>
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -14,7 +23,7 @@
 <div class="container">
     <div>
         <a href="./" class="link-primary">Комментарии</a>
-        <a href="registration.php" class="link-primary">Регистрация</a>
+        <a href="signup.php" class="link-primary">Регистрация</a>
     </div>
     <form class="mt-5" method="post">
         <div class="form-group mt-4">
@@ -28,25 +37,6 @@
         </div>
         <button type="submit" class="btn btn-primary mt-4">Отправить</button>
     </form>
-
-    <?php
-
-    require_once("defines.php");
-    require_once("db.php");
-
-    $mysqli = mysqli_connect(DB['host'], DB['login'], DB['password'], DB['name']) or die("Не удалось подключиться к базе данных");
-
-    if ($_SERVER['REQUEST_METHOD'] === "POST") {
-        $query = sprintf(LOGIN_SELECT,
-            mysqli_real_escape_string($mysqli, $_POST['login']),
-            mysqli_real_escape_string($mysqli, $_POST['password']));
-
-        mysqli_num_rows(mysqli_query($mysqli, $query)) or die("Логин или пароль не совпадают");
-
-        session_start();
-        $_SESSION["login"] = $_POST['login'];
-        header("Location: /");
-    }  ?>
 </div>
 </body>
 </html>
