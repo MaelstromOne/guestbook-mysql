@@ -13,7 +13,7 @@
 
 <div class="container">
     <div>
-        <a href="/" class="link-primary">Комментарии</a>
+        <a href="./" class="link-primary">Комментарии</a>
         <a href="registration.php" class="link-primary">Регистрация</a>
     </div>
     <form class="mt-5" method="post">
@@ -31,8 +31,8 @@
 
     <?php
 
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/defines.php");
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/db.php");
+    require_once("defines.php");
+    require_once("db.php");
 
     $mysqli = mysqli_connect(DB['host'], DB['login'], DB['password'], DB['name']) or die("Не удалось подключиться к базе данных");
 

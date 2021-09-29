@@ -13,7 +13,6 @@
 
 <?php session_start(); ?>
 
-
 <div class="container">
     <div>
         <a href="registration.php" class="link-primary">Регистрация</a>
@@ -42,8 +41,8 @@
 
     <?php
 
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/defines.php");
-    require_once($_SERVER['DOCUMENT_ROOT'] . "/db.php");
+    require_once("defines.php");
+    require_once("db.php");
 
     $mysqli = mysqli_connect(DB['host'], DB['login'], DB['password'], DB['name']) or die("Не удалось подключиться к базе данных");
 
