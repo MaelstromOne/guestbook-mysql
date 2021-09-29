@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Авг 06 2021 г., 09:33
+-- Время создания: Сен 29 2021 г., 15:14
 -- Версия сервера: 8.0.24
 -- Версия PHP: 7.4.21
 
@@ -18,8 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `db`
+-- База данных: `gbook`
 --
+CREATE DATABASE IF NOT EXISTS `gbook` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `gbook`;
 
 -- --------------------------------------------------------
 
@@ -39,12 +41,12 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`id`, `user_id`, `text`, `date`) VALUES
-(4, 8, 'fgfdggdfgfdg', '2021-08-05 18:22:42'),
-(5, 8, 'fdhfhsdh', '2021-08-05 18:26:48'),
-(6, 6, 'jj', '2021-08-05 18:27:04'),
-(7, 6, 'fd', '2021-08-05 18:31:04'),
-(8, 6, 'fdsgd', '2021-08-05 18:31:06'),
-(9, 9, 'dgfggdfg', '2021-08-05 18:31:19');
+(1, 1, 'Сообщение', '2021-09-29 12:03:17'),
+(2, 1, 'Сообщение 2', '2021-09-29 12:03:24'),
+(3, 2, 'Сообщение 3', '2021-09-29 12:03:40'),
+(4, 2, 'Сообщение 4', '2021-09-29 12:03:44'),
+(5, 3, 'Сообщение 5', '2021-09-29 12:04:14'),
+(6, 3, 'Сообщение 6', '2021-09-29 12:04:17');
 
 -- --------------------------------------------------------
 
@@ -63,10 +65,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `password`) VALUES
-(6, 'test1', 'test1'),
-(8, 'test2', 'test2'),
-(9, 'test3', 'test3'),
-(10, 'test4', 'test4');
+(1, 'user', 'user'),
+(2, 'user2', 'user2'),
+(3, 'user3', 'user3');
 
 --
 -- Индексы сохранённых таблиц
@@ -94,13 +95,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -110,7 +111,7 @@ ALTER TABLE `users`
 -- Ограничения внешнего ключа таблицы `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
